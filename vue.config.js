@@ -1,3 +1,3 @@
 module.exports = { 
-  outputDir: '../backend/public'
+  outputDir: '../keemgunn.com-backend/public'
 }
