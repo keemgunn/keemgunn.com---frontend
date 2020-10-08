@@ -23,12 +23,12 @@
 </template>
 <script>
 import{ mapGetters } from 'vuex';
-const { 
+import { 
   mountPosition, 
   typoArr, 
   Timeline, 
   keys 
-} = require('../../../assets/NameParade/javascripts/circleAnime');
+} from '../../../api/NameParade/circleAnime';
 import anime from 'animejs';
 export default {
   name: "TitleCell",

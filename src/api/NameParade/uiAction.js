@@ -12,6 +12,7 @@ const bbc = {
     return 'hsl('+ h + 'deg,' + s + '%, ' + l + '%, ' + a + ')'
   },
 };
+
 const colorHarmonies = [
   [-30, 30, -40, +40, 0],
   [-35, 35, -45, +45, 0],
@@ -19,6 +20,7 @@ const colorHarmonies = [
   [0, 0, 180, 180, 180],
   [-20, +20, +180, +180, 0]
 ];
+
 function newBBC({comp, hue}){
   let harmonies, stdColor;
   if(comp<0){
@@ -38,11 +40,10 @@ function newBBC({comp, hue}){
   return result
 }
 
-
-
 function random(min, max) {
   return Math.random() * (max - min) + min
 }
+
 function randomInt(min, max) {
   min = Math.ceil(min);
   max = Math.floor(max);
@@ -55,5 +56,4 @@ export {
   newBBC,
   random, 
   randomInt,
-
 }

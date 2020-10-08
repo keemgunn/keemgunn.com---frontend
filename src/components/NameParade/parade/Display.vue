@@ -18,12 +18,11 @@
 </template>
 
 <script>
-import { mapState, mapGetters } from 'vuex';
+import { mapGetters } from 'vuex';
 import PathView from './PathView';
 import anime from 'animejs';
-const { keys, Timeline } = require('../../../assets/NameParade/javascripts/circleAnime');
-const { randomInt } = require('../../../assets/NameParade/javascripts/uiAction');
-const { signFiles } = require('../../../test/test');
+const { keys, Timeline } = require('../../../api/NameParade/circleAnime');
+const { randomInt } = require('../../../api/NameParade/uiAction');
 
 export default {
   name: "Display",
@@ -37,8 +36,7 @@ export default {
   }},
   
   computed: {
-    ...mapState(['renderStatus']),
-    ...mapGetters(['SIGNS','SIGNS_COUNT']),
+    ...mapGetters([ 'SIGNS' , 'SIGNS_COUNT' , 'RENDER_STATE' ]),
 
     SIGN_SEQ_ARR: function(){
       return this.signSeq.length
@@ -47,7 +45,7 @@ export default {
   },
   watch: {
 
-    renderStatus(nu, old){
+    RENDER_STATE(nu, old){
       if(nu === 1){//___when render starts
         this.aIn();
         this.pending = this.PULL(this.SIGNS);
@@ -56,7 +54,7 @@ export default {
       }else if(nu ===3){//___when destroyed
         this.viewOn = false;
         setTimeout(this.MOUNT, 400, this.pending);
-        this.$store.state.renderStatus = 0;
+        this.$store.state.np.renderStatus = 0;
       }
         return old
     },
@@ -117,7 +115,7 @@ export default {
         }],
       });
       this.BorderOut.finished.then(() => {
-        this.$store.state.renderStatus += 1;
+        this.$store.state.np.renderStatus += 1;
         anime.remove('#border');
       });
       this.BorderOut.play();
@@ -151,16 +149,11 @@ export default {
   },
 
   mounted() {
-    if(this.$store.state.test.server.signLoad){
-      this.$store.state.signsArr = signFiles.sort(() => {
-        return Math.random() - Math.random();
-      });
-    }
     this.refreshSignSeq(this.SIGNS_COUNT);
     this.pending = this.PULL(this.SIGNS);
         // ________ SET DELAY BEFOR RENDER SIGNS ________
     setTimeout(this.MOUNT, 2000, this.pending);
-    this.$store.state.backBlue = false;
+    this.$store.state.np.backBlue = false;
   },
 
   beforeDestroy() {

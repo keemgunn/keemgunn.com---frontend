@@ -1,9 +1,9 @@
 import Vue from 'vue';
 import Vuex from 'vuex';
 import axios from 'axios';
-const animation = require('./assets/NameParade/javascripts/animation');
-const ui = require('./assets/NameParade/javascripts/uiAction');
-const test = require('./test/test');
+const animation = require('../assets/NameParade/javascripts/animation');
+const ui = require('../assets/NameParade/javascripts/uiAction');
+const test = require('./test');
 
 //_____ userID generate
 import randomstring from 'randomstring';
@@ -53,7 +53,7 @@ export default new Vuex.Store({
     dataUrl: '',
     version: '',
     build: '',
-    filesInServer: [],
+    displayArr: [],
     
     //__________________UI
     bbcAppear: false,
@@ -130,7 +130,7 @@ export default new Vuex.Store({
       return state.test.client
     },
     TS(state){ // Test Server
-      return state.stest.server
+      return state.test.server
     },
 
     VERSION(state){
@@ -225,8 +225,8 @@ export default new Vuex.Store({
       }
     },
 
-    FILES_IN_SERVER(state){
-      return state.filesInServer
+    SIGNS_INDEX(state){
+      return state.displayArr
     },
 
     SIGNS(state){
@@ -270,7 +270,7 @@ export default new Vuex.Store({
   mutations: {
 
     bbcTrigger(state, bool){
-      this.state.bbcAppear = bool;
+      state.bbcAppear = bool;
     },
     setBBC(state, {comp, hue}){
       state.desColor = ui.newBBC({comp, hue});
@@ -286,7 +286,7 @@ export default new Vuex.Store({
       state.dataUrl = recieved.dataUrl;
       state.version = recieved.version;
       state.build = recieved.build;
-      state.filesInServer = recieved.signs;
+      state.displayArr = recieved.signs;
     },
 
     moveTo(state, sequence){

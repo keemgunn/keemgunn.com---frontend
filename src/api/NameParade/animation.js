@@ -1,21 +1,9 @@
-const seqStates = {
-  0: 'loading-init',
-  1: 'loading-done',
-  2: 'writer-des',
-  3: 'writer-pm',
-  4: 'thank=you-',
-  5: 'parade-intro',
-  6: 'parade-display',
-
-};
-
 const timing = {
   Background: {
     loadingTransition: 300 +'ms',
     loadedTransition: 400 + 'ms',
     fadeBlackTransition: 800 +'ms',
     circleVelocity: 0.4,
-    hueVelocity: 0.5,
     levelVelocity: 0.1,
   },
   Title: {
@@ -43,11 +31,7 @@ const timing = {
   },
   Pathmaker:{
     afterDoneVelocity: 0.1,
-
   }
-  
-
 }
 
-
-export { seqStates, timing };
+export { timing }

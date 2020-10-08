@@ -15,13 +15,13 @@
 
   <div class="content-wrapper" :style="contentStyle">
 
-    <div v-if="displayOn && signDataLoaded"
+    <div v-if="displayOn && SIGN_LOADED"
       class="display-wrapper" :style="displayStyle">
       <Display/>
     </div>
 
     <transition name="contributor"> 
-    <div v-if="displayOn && signDataLoaded" 
+    <div v-if="displayOn && SIGN_LOADED" 
       class="contributor-wrapper" :style="contributorStyle">
       <Contributor/>
     </div>
@@ -35,7 +35,7 @@
 
 
 <script>
-import { mapState, mapGetters, mapMutations } from 'vuex';
+import { mapGetters, mapMutations } from 'vuex';
 import TitleCell from './TitleCell';
 import Display from './Display';
 import Contributor from './Contributor';
@@ -61,9 +61,13 @@ export default {
   }},
 
   computed: {
-    ...mapState([ 'signDataLoaded', 'circleAnime', 'blocks' ]),
-    ...mapGetters([ 'VIEWTYPE', 'bs', ]),
-
+    ...mapGetters([
+        'VIEWTYPE',
+        'BLOCKS',
+        'blockConfigs',
+        'bs', 
+        'SIGN_LOADED'
+      ]),
     gridType: function(){
       if((this.VIEWTYPE === 'small')||(this.VIEWTYPE === 'narrow')){
         return {
@@ -164,25 +168,25 @@ export default {
     ...mapMutations([
       'bbcTrigger'
     ]),
-    getGridHeight(blocks, circleAnime, {index, xAdd, yAdd, wCount, hCount}){
+    getGridHeight(blocks, blockConfigs, {index, xAdd, yAdd, wCount, hCount}){
       let coords = blocks[index].split('x');
       let column = parseInt(coords[0]);
       let row = parseInt(coords[1]);
-      let left = (column+xAdd)*circleAnime.blockSize + this.circleAnime.wOff +'px';
-      let top = (row+yAdd)*circleAnime.blockSize + this.circleAnime.hOff +'px';
-      let width = wCount*circleAnime.blockSize +'px';
-      let height = hCount*circleAnime.blockSize +'px';
+      let left = (column+xAdd)*blockConfigs.blockSize + blockConfigs.wOff +'px';
+      let top = (row+yAdd)*blockConfigs.blockSize + blockConfigs.hOff +'px';
+      let width = wCount*blockConfigs.blockSize +'px';
+      let height = hCount*blockConfigs.blockSize +'px';
       return { left, top, width, height }
     },
     titleCellMounted(){
-      this.$store.state.cellTiming.paradeTitleMounted += 1;
+      this.$store.state.np.cellTiming.paradeTitleMounted += 1;
     },
     triggerDisplay(){
       this.displayOn = true;
     }
   },
   created() {
-    let { left, top, width, height } = this.getGridHeight(this.blocks, this.circleAnime, this.gridType);
+    let { left, top, width, height } = this.getGridHeight(this.BLOCKS, this.blockConfigs, this.gridType);
     this.topSpace.height = top;
     this.title.left = left;
     this.title.width = width;
@@ -193,7 +197,7 @@ export default {
     for(var i=0; i < this.blockCount; i++){
       this.titleBlocks.push(i);
     }
-    this.$store.state.cellTiming.paradeTitleCellCount = this.titleBlocks.length;
+    this.$store.state.np.cellTiming.paradeTitleCellCount = this.titleBlocks.length;
     this.titleBlocks;
   },
   mounted() {

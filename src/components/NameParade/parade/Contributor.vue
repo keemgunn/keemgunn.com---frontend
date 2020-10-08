@@ -46,8 +46,8 @@
       </div>
 
       <div class="para">
-      version {{VERSION}} <br>
-      build {{BUILD}}
+      version {{APP_INFO.version}} <br>
+      build {{APP_INFO.build}}
       </div>
 
       <div class="para">
@@ -84,11 +84,10 @@ export default {
   }},
   computed: {
     ...mapGetters([
-      'VERSION', 
-      'BUILD', 
       'VIEWTYPE', 
       'byType', 
-      'SIGNS'
+      'SIGNS',
+      'APP_INFO'
     ]),
 
     HEADER_SCROLL: function(){

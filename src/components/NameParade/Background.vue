@@ -6,12 +6,11 @@
 </div>
 </template>
 
-
 <script>
-import { mapState, mapGetters, mapMutations } from 'vuex';
+import { mapGetters, mapMutations } from 'vuex';
+import { random, bbc } from '../../api/NameParade/uiAction';
+import { timing } from '../../api/NameParade/animation';
 const paper = require('paper');
-import { random } from '../../assets/NameParade/javascripts/uiAction';
-import { bbc } from '../../assets/NameParade/javascripts/uiAction';
 const name = 'Background';
 export default {
   name,
@@ -21,27 +20,22 @@ export default {
     hueVector: [], // -1 , 0, 1
     l: [0, 0], // [start, end]
     desLev: [ 42 , 38 ],
-    size: 0.66, amount: 6,
-    AT: {
-      loadingTransition: 300 +'ms',
-      loadedTransition: 400 + 'ms',
-      fadeBlackTransition: 800 +'ms',
-      circleVelocity: 0.4,
-      levelVelocity: 0.1,
-    }
+    size: 0.66, 
+    amount: 6
   }},
   computed: {
-    ...mapState([
-        'bbcAppear',
-        'backBlue',
-        'winSize',
-        'desColor'
-      ]),
     ...mapGetters([
+        'VW', 'VH',
         'VIEWTYPE', 
+        'desColor',
+        'backBlue',
+        'bbcAppear',
         'NEW_PATHS',
         'SEQ'
       ]),
+    AT: function(){
+      return timing[name]
+    },
     bgLoading: function(){
       if(this.backBlue){
         if(this.bbcAppear){
@@ -65,15 +59,15 @@ export default {
       }
     },
     radius: function() {
-      if(this.winSize.vw > this.winSize.vh){
+      if(this.VW > this.VH){
         return {
-          min: this.winSize.vh * this.size,
-          max: this.winSize.vw * this.size
+          min: this.VH * this.size,
+          max: this.VW * this.size
         }
       }else{
         return {
-          min: this.winSize.vw * this.size,
-          max: this.winSize.vh * this.size
+          min: this.VW * this.size,
+          max: this.VH * this.size
         }
       }
     },
@@ -95,11 +89,11 @@ export default {
       circle.position.x += circle.data.veloX
       circle.position.y += circle.data.veloY
       //__ bounce X
-      if((circle.position.x<0)||(circle.position.x>this.winSize.vw)){
+      if((circle.position.x<0)||(circle.position.x>this.VW)){
         circle.data.veloX *= -1 ;
       }
       //__ bounce Y
-      if((circle.position.y<0)||(circle.position.y>this.winSize.vh)){
+      if((circle.position.y<0)||(circle.position.y>this.VH)){
         circle.data.veloY *= -1 ;
       }
       //__ hue compare
@@ -192,8 +186,8 @@ export default {
       this.hueVector.push(0);
       var circle = new this.scope.Path.Circle({
         center: new this.scope.Point(
-          Math.random() * (this.winSize.vw),
-          Math.random() * (this.winSize.vh)),
+          Math.random() * (this.VW),
+          Math.random() * (this.VH)),
         radius: random(this.radius.min, this.radius.max),
         data: {
           veloX: random(0,this.AT.circleVelocity),
