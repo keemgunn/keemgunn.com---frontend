@@ -6,7 +6,7 @@
 
       <Title/>
 
-      <div v-if="blockRendered">
+      <div v-if="BLOCK_RENDERED">
         <transition name="writer-appear">
           <Writer v-if="(SEQ > 1) && (SEQ < 4)"/>
         </transition>
@@ -18,7 +18,7 @@
 </template>
 
 <script> 
-import { mapState, mapGetters, mapMutations, mapActions } from 'vuex';
+import { mapGetters, mapMutations, mapActions } from 'vuex';
 import Background from './Background';
 import Title from './title/Title';
 import Writer from './writer/Writer';
@@ -36,25 +36,20 @@ export default {
     Parade,
   },
   computed: {
-    ...mapState([
-        'test', 
-        'winSize',
-        'blockRendered'
-      ]),
     ...mapGetters([
         'TC', 'TS',
         'SIGN_HISTORY',
         'VIEWTYPE',
         'byType', 
         'SEQ', 
-        'FILES_IN_SERVER',
+        'BLOCK_RENDERED',
+        'SIGNS_INDEX',
         'SIGN_SENT',
       ])
   },
   methods: {
     ...mapMutations([ 'moveTo', 'setBBC' ]),
     ...mapActions([ 'INITIATE', 'startSignLoad' ]),
-
   },
   watch: {
 
@@ -67,7 +62,7 @@ export default {
       }
     },
 
-    FILES_IN_SERVER(nu, old){
+    SIGNS_INDEX(nu, old){
       if(this.TC.signLoadDone){
         console.log('--- test: start loading signs ---');
         this.startSignLoad();
@@ -79,7 +74,7 @@ export default {
         }else{
           console.log('--- no sign data ---');
           console.log('display item count:', nu.length);
-          this.$store.state.signDataLoaded = true;
+          this.$store.state.np.signDataLoaded = true;
           return old
         }
       }
@@ -87,11 +82,7 @@ export default {
 
     SIGN_SENT(nu, old){
       if(nu === true){
-        if(this.TC.testSequence){
-          this.$store.state.test.client.sequenceNow = 4;
-        }else{
-          this.moveTo(4);
-        }
+        this.moveTo(4);
       }else{
         return old
       }
@@ -104,12 +95,11 @@ export default {
     this.INITIATE();
     console.log('---history:', this.SIGN_HISTORY);
     if(this.SIGN_HISTORY){
-      this.$store.state.sequence = 4
+      this.$store.state.np.sequence = 4
     }
 
   },
   mounted() {
-
     if( (this.SEQ>3) && (this.VIEWTYPE !== 'wide') ){
       document.querySelector( 'body' ).style['overflow-y'] = 'auto';
       document.querySelector( 'body' ).style['overflow-x'] = 'hidden';
@@ -125,7 +115,7 @@ export default {
 
 
 <style lang="scss">
-  @import "../../assets/NameParade/styles/animations.scss";
+  @import "../../assets/styles/np-animation.scss";
   @import "../../assets/fonts/CoreGothicD/coregothicd.css";
   body {
     overflow: hidden;

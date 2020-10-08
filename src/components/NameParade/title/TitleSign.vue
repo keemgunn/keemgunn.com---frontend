@@ -24,11 +24,9 @@
 </div>
 </template>
 <script>
-import { mapState, mapGetters, mapMutations } from 'vuex';
+import { mapGetters, mapMutations } from 'vuex';
 import anime from 'animejs';
-const {
-  Timeline,
-} = require('../../../assets/NameParade/javascripts/circleAnime');
+import { Timeline } from '../../../api/NameParade/circleAnime';
 const name = "TitleSign";
 export default {
   name,
@@ -37,8 +35,7 @@ export default {
     TitleSignAnimation: null,
   }},
   computed: {
-    ...mapState(['aniTiming', 'circleAnime', 'blocks']),
-    ...mapGetters(['VIEWTYPE', 'SEQ']),
+    ...mapGetters(['VIEWTYPE', 'SEQ', 'BLOCKS', 'blockConfigs']),
     locateInfo: function(){
       if((this.VIEWTYPE === 'small')||(this.VIEWTYPE === 'narrow')){
         return {
@@ -60,26 +57,26 @@ export default {
   },
   methods: {
     ...mapMutations(['moveTo']), 
-    locateFixed(blocks, circleAnime, {index, xAdd, yAdd, wCount, hCount}){
+    locateFixed(blocks, blockConfigs, {index, xAdd, yAdd, wCount, hCount}){
       let coords = blocks[index].split('x');
       let column = parseInt(coords[0]);
       let row = parseInt(coords[1]);
-      let left = (column+xAdd)*circleAnime.blockSize + this.circleAnime.wOff +'px';
-      let top = (row+yAdd)*circleAnime.blockSize + this.circleAnime.hOff +'px';
-      let width = wCount*circleAnime.blockSize +'px';
-      let height = hCount*circleAnime.blockSize +'px';
+      let left = (column+xAdd)*blockConfigs.blockSize + blockConfigs.wOff +'px';
+      let top = (row+yAdd)*blockConfigs.blockSize + blockConfigs.hOff +'px';
+      let width = wCount*blockConfigs.blockSize +'px';
+      let height = hCount*blockConfigs.blockSize +'px';
       return {left, top, width, height}
     }
   },
   created() {
-    this.location = this.locateFixed(this.blocks, this.circleAnime, this.locateInfo);
+    this.location = this.locateFixed(this.BLOCKS, this.blockConfigs, this.locateInfo);
   },
   watch: {
     SEQ(nu, old){
       if(nu === 1){
         this.TitleSignAnimation.play();
       }
-return old
+      return old
     }
   },
   mounted() {

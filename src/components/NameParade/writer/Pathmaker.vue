@@ -4,9 +4,9 @@
 </div>
 </template>
 <script>
-import { mapState, mapGetters, mapMutations } from 'vuex';
+import { mapGetters, mapMutations } from 'vuex';
 const paper = require('paper');
-const pm = require('../../../assets/NameParade/javascripts/pathmaker');
+const pm = require('../../../api/NameParade/pathmaker');
 
 const name = 'Pathmaker';
 export default {
@@ -20,15 +20,11 @@ export default {
     simplifyVal: 1,
   }},
   computed: {
-    ...mapState([
-        'winSize',
-        'writer',
-        'writerUndo'
-      ]),
     ...mapGetters([
         'byType', 
         'VIEWTYPE', 
-        'NEW_PATHS'
+        'NEW_PATHS',
+        'WRITER_UNDO'
       ]),
     AT: function(){
       return this['aniTiming'][name]
@@ -48,15 +44,15 @@ export default {
   },
   watch: {
 
-    writerUndo(nu, old){
+    WRITER_UNDO(nu, old){
       if(nu){
-        this.writer.paths[nu].remove();
-        this.writer.paths.pop();
-        this.$store.state.writerUndo = null;
+        this.$store.state.np.writer.paths[nu].remove();
+        this.$store.state.np.writer.paths.pop();
+        this.$store.state.np.writerUndo = null;
       }else if(nu === 0){
-        this.writer.paths[nu].remove();
-        this.writer.paths.pop();
-        this.$store.state.writerUndo = null;
+        this.$store.state.np.writer.paths[nu].remove();
+        this.$store.state.np.writer.paths.pop();
+        this.$store.state.np.writerUndo = null;
       }else{
         return old
       }
@@ -77,7 +73,7 @@ export default {
         this.canvasCoords.center.x, 
         this.canvasCoords.center.y
       )
-      this.writer.width = this.W;
+      this.$store.state.np.writer.width = this.W;
       if(this.VIEWTYPE === 'small'){
         this.strokeWidth = this.W / 66;
       }else if(this.VIEWTYPE === 'narrow'){
@@ -110,12 +106,12 @@ export default {
       this.makeSvg();
     },
     makeGroup(){
-      this.writer.pathGroup = new this.scope.Group({
-        children: this.writer.paths
+      this.$store.state.np.writer.pathGroup = new this.scope.Group({
+        children: this.$store.state.np.writer.paths
       })
     },
     makeSvg(){
-      this.writer.svg = this.writer.pathGroup.exportSVG({
+      this.$store.state.np.writer.svg = this.$store.state.np.writer.pathGroup.exportSVG({
         asString: true,
         // bounds: 'content'
       });
@@ -153,16 +149,16 @@ export default {
     this.scope.view.onMouseUp = () => {
       path.simplify(this.simplifyVal);
       contact = 0;
-      this.writer.paths.push(path);
-      this.$store.state.writer.bounds.width = this.scope.view.bounds.width;
-      this.$store.state.writer.bounds.height = this.scope.view.bounds.height;
-      this.$store.state.writer.bounds.x = this.scope.view.bounds.x;
-      this.$store.state.writer.bounds.y = this.scope.view.bounds.y;
+      this.$store.state.np.writer.paths.push(path);
+      this.$store.state.np.writer.bounds.width = this.scope.view.bounds.width;
+      this.$store.state.np.writer.bounds.height = this.scope.view.bounds.height;
+      this.$store.state.np.writer.bounds.x = this.scope.view.bounds.x;
+      this.$store.state.np.writer.bounds.y = this.scope.view.bounds.y;
     }
   },
   beforeDestroy() {
     this.exportSvg();
-    this.writer.pathGroup.remove();
+    this.$store.state.np.writer.pathGroup.remove();
     this.scope.view.remove();
   },
 }

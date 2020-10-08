@@ -57,7 +57,7 @@
 
 
 <script>
-import { mapState, mapGetters, mapMutations } from 'vuex';
+import { mapGetters, mapMutations } from 'vuex';
 
 
 const name = 'InfoGetter';
@@ -73,7 +73,6 @@ export default {
     isAnnChecked: false
   }},
   computed: {
-    ...mapState(['writer']),
     ...mapGetters(['VIEWTYPE', 'byType', 'USER_NAME']),
     boxBorder: function(){
       if(this.VIEWTYPE === 'small'){
@@ -112,10 +111,10 @@ export default {
   watch: {
     newName(nu, old){
       if(nu !== ''){
-        this.$store.state.writer.info.name = nu;
+        this.$store.state.np.writer.info.name = nu;
         this.isNameFilled = true;
       }else{
-        this.$store.state.writer.info.name = nu;
+        this.$store.state.np.writer.info.name = nu;
         this.isNameFilled = false;
         return old
       }
@@ -130,11 +129,11 @@ export default {
     },
     isAnnChecked(nu, old){
       if(nu){
-        document.getElementById("field").value = this.writer.info.userId;
-        this.$store.state.writer.info.name = this.writer.info.userId;
+        document.getElementById("field").value = this.$store.state.np.writer.info.userId;
+        this.$store.state.np.writer.info.name = this.$store.state.np.writer.info.userId;
       }else{
         document.getElementById("field").value = this.newName;
-        this.$store.state.writer.info.name = this.newName;
+        this.$store.state.np.writer.info.name = this.newName;
         return old
       }
     }

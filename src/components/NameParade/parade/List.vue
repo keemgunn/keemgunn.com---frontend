@@ -32,7 +32,7 @@
 
 
 <script>
-import{ mapState, mapGetters } from 'vuex';
+import{ mapGetters } from 'vuex';
 import randomstring from 'randomstring';
 const rand = randomstring.generate(6);
 
@@ -52,7 +52,6 @@ export default {
   }},
 
   computed: {
-    ...mapState([]),
     ...mapGetters(['byType']),
 
     svgId: function(){

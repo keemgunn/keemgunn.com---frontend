@@ -1,8 +1,6 @@
 <template>
 <div id="mapped-text">
-
 <svg viewBox="0 0 956 768" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
-    <title>Group 890</title>
     <defs>
         <polygon id="path-1" points="0 767.17 955.676 767.17 955.676 -1.13686838e-13 0 -1.13686838e-13"></polygon>
     </defs>
@@ -899,51 +897,13 @@
         </g>
     </g>
 </svg>
-
 </div>
 </template>
-
-
-
 <script>
-import{ mapState, mapGetters, mapMutations} from 'vuex';
 export default {
   name: "mappedText",
-  components: { },
-  props: [
-
-  ],
-  data() { return {
-
-  }},
-  computed: {
-    ...mapState([]),
-    ...mapGetters([]),
-
-
-  },
-  methods: {
-    ...mapMutations([]),
-
-    
-  },
-  created() {
-
-  },
-  mounted() {
-    
-  },
-  beforeUpdate() {
-    
-  },
-  beforeCreate() {
-    
-  },
 }
 </script>
-
-
-
 <style lang="scss" scoped> 
 #mapped-text {
   position: relative;
@@ -952,9 +912,4 @@ export default {
   width: 100%;
   height: fit-content;
 }
-
-
-
-
-
 </style>

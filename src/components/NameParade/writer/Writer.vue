@@ -87,9 +87,10 @@
 
 
 <script>
-import { mapState, mapGetters, mapMutations } from 'vuex';
+import { mapGetters, mapMutations } from 'vuex';
 import Pathmaker from './Pathmaker';
 import InfoGetter from './InfoGetter';
+import { timing } from '../../../api/NameParade/animation';
 
 const name = 'Writer';
 export default {
@@ -102,7 +103,6 @@ export default {
     submitBtn: false
   }},
   computed: {
-    ...mapState(['aniTiming', 'blocks']),
     ...mapGetters([
         'TC',
         'byType', 
@@ -114,7 +114,7 @@ export default {
         'WRITER_DONE'
       ]),
     AT: function(){
-      return this['aniTiming'][name]
+      return timing[name]
     },
     wrapper: function(){
       if(this.SEQ === 2){
@@ -167,12 +167,8 @@ export default {
       }
     },
     DONE(){
-      this.$store.state.writerDone = true;
-      if(this.TC.testSequence){
-        this.$store.state.test.client.sequenceNow = 3;
-      }else{
-        this.moveTo(3);
-      }
+      this.$store.state.np.writerDone = true;
+      this.moveTo(3);
     },
     toggleSubmitVis(bool){
       this.submitBtn = bool;
