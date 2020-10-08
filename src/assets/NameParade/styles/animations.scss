@@ -1,0 +1,131 @@
+// _____________________ TITLESIGN
+.titlesign-vanish-leave {
+  opacity: 1;
+}
+.titlesign-vanish-leave-to {
+  opacity: 0;
+  transform: translateY(-50px);
+}
+.titlesign-vanish-leave-active {
+  transition: all 500ms;
+  // transition-delay: 300ms;
+}
+
+
+// _____________________ WRITER
+.writer-appear-enter {
+  opacity: 0;
+  transform: translateY(-8px);
+} 
+.writer-appear-enter-to {
+  opacity: 1;
+}
+.writer-appear-enter-active{
+  transition: all 400ms;
+  // transition-delay: 300ms;
+}
+.writer-appear-leave {
+  opacity: 1;
+}
+.writer-appear-leave-to {
+  opacity: 0;
+  transform: translateY(-8px);
+}
+.writer-appear-leave-active {
+  transition: all 500ms;
+}
+
+
+// _____________________ INFOGETTER
+.writer-des-appear-enter {
+  opacity: 0;
+  transform: translateY(-8px);
+} 
+.writer-des-appear-enter-to {
+  opacity: 1;
+}
+.writer-des-appear-enter-active{
+  transition: all 400ms;
+  transition-delay: 500ms;
+}
+.writer-des-appear-leave {
+  opacity: 1;
+}
+.writer-des-appear-leave-to {
+  opacity: 0;
+  transform: translateY(-8px);
+}
+.writer-des-appear-leave-active {
+  transition: all 300ms;
+}
+
+
+// _____________________ TITLE TYPO
+.title-typo-enter {
+  opacity: 0;
+  transform: translateY(-10px);
+} 
+.title-typo-enter-to {
+  opacity: 1;
+}
+.title-typo-enter-active{
+  transition: all 400ms;
+  // transition-delay: 300ms;
+}
+.title-typo-leave {
+  opacity: 1;
+}
+.title-typo-leave-to {
+  opacity: 0;
+  transform: translateY(-10px);
+}
+.title-typo-leave-active {
+  transition: all 500ms;
+}
+
+
+
+// _____________________ TITLE TYPO
+.pathview-info-enter {
+  opacity: 0;
+} 
+.pathview-info-enter-to {
+  opacity: 1;
+}
+.pathview-info-enter-active{
+  transition: all 500ms;
+  transition-timing-function: cubic-bezier(.98,.02,.74,.97);
+}
+.pathview-info-leave {
+  opacity: 1;
+}
+.pathview-info-leave-to {
+  opacity: 0;
+}
+.pathview-info-leave-active {
+  transition: all 900ms;
+  transition-timing-function: cubic-bezier(.65,.02,.86,.44);
+}
+
+
+
+// _____________________ TITLE TYPO
+.contributor-enter {
+  opacity: 0;
+} 
+.contributor-enter-to {
+  opacity: 1;
+}
+.contributor-enter-active{
+  transition: all 500ms;
+  transition-delay: 4000ms;
+  transition-timing-function: cubic-bezier(.98,.02,.74,.97);
+}
+
+
+
+
+#testtesttest{
+  transition-timing-function: cubic-bezier(0,0,.13,1);
+
+}
