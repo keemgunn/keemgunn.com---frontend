@@ -1,10 +1,8 @@
 const axios = require('axios');
 
 const { SignDataPack } = require('./writer');
-const ui = require('./uiAction');
+const ui = require('../../api/NameParade/uiAction');
 
-const test = require('./test/test');
-let TEST = test.testInitiate(test);
 
 // ============================= STATE 
 const state = () => ({
@@ -19,7 +17,8 @@ const state = () => ({
   
   dataConfig: {
     dataUrl: '',
-    displayArr: []
+    displayArr: [],
+    signDataLoaded: false
   },
   
   bbc:{
@@ -49,15 +48,25 @@ const state = () => ({
   signSent: false,
   
   signsArr: [],
-  signDataLoaded: false,
   renderStatus: 0 // 1:mounted 2:rendered 3:pending
 })
 
+const test = require('./test/test');
+let TEST = test.testInitiate(state);
 
 
 
 // ============================= GETTERS  
 const getters = {
+
+  TC(){ // Test Client
+    return test.configs.client
+  },
+  TS(){ // Test Server
+    return test.configs.server
+  },
+
+  //_____________________________________
 
   SIGN_HISTORY(){
     if(localStorage.history){
@@ -66,17 +75,25 @@ const getters = {
       return false
     }
   },
+  APP_INFO(state){
+    return state.appInfo
+  },
+  SEQ(state){
+    return state.sequence
+  },
   
   //_____________________________________
 
-  SEQ(state){
-    if(TEST.isSeqTest){
-      return TEST.SEQ
-    }else{
-      return state.sequence
-    }
+  desColor(state){
+    return state.bbc.desColor
   },
-  
+  backBlue(state){
+    return state.bbc.backBlue
+  },
+  bbcAppear(state){
+    return state.bbc.appear
+  },
+
   //_____________________________________
 
   bs(state){
@@ -88,25 +105,26 @@ const getters = {
   fh(state){
     return state.circleAnime.fieldHeight;
   },
-  FIELD(state){
-    return {
-      'width': state.circleAnime.fieldWidth +'px',
-      'height': state.circleAnime.fieldHeight +'px',
-      'top': state.circleAnime.wOff +'px',
-      'left': state.circleAnime.hOff +'px'
-    }
-  },
   wOff(state){
     return state.circleAnime.wOff
   },
   hOff(state){
     return state.circleAnime.hOff
   },
+  blockConfigs(state){
+    return state.circleAnime
+  },
   blockCounts(state){
     return {
       c: state.circleAnime.colCount,
       r: state.circleAnime.rowCount
     }
+  },
+  BLOCKS(state){
+    return state.blocks
+  },
+  BLOCK_RENDERED(state){
+    return state.blockRendered
   },
   
   //_____________________________________
@@ -141,12 +159,11 @@ const getters = {
   NEW_PATHS(state){
     return state.writer.paths.length
   },
+  WRITER_UNDO(state){
+    return state.writerUndo
+  },
   WRITER_DONE(state){
-    if(state.test.client.writerDone){
-      return true
-    }else{
-      return state.writerDone
-    }
+    return state.writerDone
   },
   USER_NAME(state){
     return state.writer.info.name
@@ -160,12 +177,18 @@ const getters = {
   SIGNS_INDEX(state){
     return state.dataConfig.displayArr
   },
+  SIGN_LOADED(state){
+    return state.dataConfig.signDataLoaded
+  },
   SIGNS(state){
     return state.signsArr
   },
   SIGNS_COUNT(state){
     return state.signsArr.length
   },
+  RENDER_STATE(state){
+    return state.renderStatus
+  }
 }
 
 
@@ -183,6 +206,10 @@ const mutations = {
     state.appInfo.version = recieved.version;
     state.appInfo.build = recieved.build;
   },
+    
+  moveTo(state, sequence){
+    state.sequence = sequence;
+  },
 
   //_____________________________________
   
@@ -195,13 +222,7 @@ const mutations = {
       state.writer.bbc = state.bbc.desColor;
     }
   },
-  
-  //_____________________________________
-  
-  moveTo(state, sequence){
-    state.sequence = sequence;
-  },
-  
+
   //_____________________________________
 
   UNDO_PATH(state){
@@ -241,7 +262,7 @@ const mutations = {
         // _______________ END PROCESS
       if(data.status === 200){
         state.signSent = true;
-        localStorage.history = userId;
+        localStorage.history = state.writer.info.userId;
       }
     }
   },
@@ -274,7 +295,7 @@ const actions = {
 
   async INITIATE({commit, state}){
     console.log("==== INITIATING REQUEST ====");
-    if(state.test.server.init){
+    if(TEST.init){
       commit('PUT_INITDATA', {
         ip: 'data.ip-test', 
         uag: 'data.uag-test',
@@ -292,7 +313,7 @@ const actions = {
       state.signsArr = test.signFiles.sort(() => {
         return Math.random() - Math.random();
       });
-      state.signDataLoaded = true;
+      state.dataConfig.signDataLoaded = true;
     }else{
       let res = await axios.get('/nameparade/api/sign-indexes');
       const signIndexArr = res.data.signIndexArr;
@@ -301,7 +322,7 @@ const actions = {
       state.signsArr = signData.arg.sort(() => {
         return Math.random() - Math.random();
       });
-      state.signDataLoaded = true;
+      state.dataConfig.signDataLoaded = true;
     }
   }
 }
@@ -310,7 +331,6 @@ const actions = {
 
 
 export default { 
-  namespaced: true,
   state, 
   getters,
   mutations,

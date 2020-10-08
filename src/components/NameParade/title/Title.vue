@@ -4,17 +4,17 @@
 <transition name="titlesign-vanish">
 <div v-if="SEQ < 4"
 class="block-wrapper" :style="FIELD">
-  <div v-for="block in blocks" :key="block">
+  <div v-for="block in BLOCKS" :key="block">
     <div class="cell" :style="cellStyle">
       <Cell 
         :block="block" 
-        :index="blocks.indexOf(block)"
-        @mounted='$store.state.cellTiming.mounted += 1'
+        :index="BLOCKS.indexOf(block)"
+        @mounted='$store.state.np.cellTiming.mounted += 1'
       />
     </div>
   </div>
   <transition name="titlesign-vanish">
-    <TitleSign v-if="blockRendered && (SEQ < 2)"/>
+    <TitleSign v-if="BLOCK_RENDERED && (SEQ < 2)"/>
   </transition>
 </div></transition>
 
@@ -24,23 +24,18 @@ class="block-wrapper" :style="FIELD">
 
 
 <script>
-import { mapState, mapGetters, mapMutations } from 'vuex';
+import { mapGetters, mapMutations } from 'vuex';
 import Cell from './Cell';
 import TitleSign from './TitleSign';
-
+import { timing } from '../../../api/NameParade/animation';
 const name = "Title";
 export default {
   name,
   components: { Cell, TitleSign },
   computed: {
-    ...mapState([ 
-        'winSize',
-        'aniTiming',
-        'blocks',
-        'blockRendered'
-      ]),
     ...mapGetters([ 
         'VIEWTYPE', 
+        'VW', 'VH',
         'byType', 
         'SEQ',
         'bs',
@@ -48,13 +43,15 @@ export default {
         'fh',
         'wOff',
         'hOff',
+        'BLOCKS',
+        'BLOCK_RENDERED',
         'blockCounts',
         'CELL_TIMING',
         'CELL_MOUNTED',
         'TYPO_RENDERED',
       ]),
       AT: function(){
-        return this['aniTiming'][name]
+        return timing[name]
       },
     space: function(){
       if(this.SEQ === 3){
@@ -101,35 +98,35 @@ export default {
     ]),
     onResize(){
       if((this.VIEWTYPE === 'small') || (this.VIEWTYPE === 'narrow')){
-        this.$store.state.circleAnime.colCount = 7; // 0.5, 6, 0.5
+        this.$store.state.np.circleAnime.colCount = 7; // 0.5, 6, 0.5
       }else if(this.VIEWTYPE === 'tablet'){
-        this.$store.state.circleAnime.colCount = 10; // 1.5, 7, 1.5
+        this.$store.state.np.circleAnime.colCount = 10; // 1.5, 7, 1.5
       }else{
-        this.$store.state.circleAnime.colCount = 15; // 1.5, 12, 1.5
+        this.$store.state.np.circleAnime.colCount = 15; // 1.5, 12, 1.5
       }
       this.sizeCalc();
     },
     sizeCalc(){
       if((this.VIEWTYPE === 'small') || (this.VIEWTYPE === 'narrow')){
-        this.$store.state.circleAnime.blockSize = parseInt(this.winSize.vw/(this.blockCounts.c-1));
-        this.$store.state.circleAnime.rowCount = parseInt(this.winSize.vh/this.bs) + 3
+        this.$store.state.np.circleAnime.blockSize = parseInt(this.VW/(this.blockCounts.c-1));
+        this.$store.state.np.circleAnime.rowCount = parseInt(this.VH/this.bs) + 3
       }else{
-        this.$store.state.circleAnime.blockSize = parseInt(this.winSize.vw/(this.blockCounts.c-3));
-        this.$store.state.circleAnime.rowCount = parseInt(this.winSize.vh/this.bs) + 2
+        this.$store.state.np.circleAnime.blockSize = parseInt(this.VW/(this.blockCounts.c-3));
+        this.$store.state.np.circleAnime.rowCount = parseInt(this.VH/this.bs) + 2
       }
-      this.$store.state.circleAnime.fieldWidth = this.bs * this.blockCounts.c;
-      this.$store.state.circleAnime.fieldHeight = this.blockCounts.r * this.bs;
-      this.$store.state.circleAnime.wOff = (this.winSize.vw-this.fw)/2;
-      this.$store.state.circleAnime.hOff = (this.winSize.vh-this.fh)/2;
+      this.$store.state.np.circleAnime.fieldWidth = this.bs * this.blockCounts.c;
+      this.$store.state.np.circleAnime.fieldHeight = this.blockCounts.r * this.bs;
+      this.$store.state.np.circleAnime.wOff = (this.VW-this.fw)/2;
+      this.$store.state.np.circleAnime.hOff = (this.VH-this.fh)/2;
     },
     getBlockArr(){
-      this.$store.state.blocks = [];
+      this.$store.state.np.blocks = [];
       for(var i=0; i<this.blockCounts.r; i++){
         for(var j=0; j<this.blockCounts.c; j++){
-          this.$store.state.blocks.push(j + 'x' + i);
+          this.$store.state.np.blocks.push(j + 'x' + i);
         }
       }
-      this.$store.state.blockRendered = true;
+      this.$store.state.np.blockRendered = true;
     },
   },
   watch: {

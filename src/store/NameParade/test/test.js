@@ -10,8 +10,8 @@ const configs = {
   client: { 
     sequenceNow: ( 4 ),
     testSequence: true, 
-    signHistory: true,
-    writerDone: true,
+    // signHistory: true,
+    // writerDone: true,
   },
   server: {
     init: true,
@@ -23,17 +23,22 @@ const configs = {
   // modal: true,
 }
 
-function testInitiate(){
+function testInitiate(state){
   let output = {}
   if(configs.client.signHistory){
     localStorage.history = 'SignHistoryTest'
   }
   if(configs.client.testSequence){
-    output.isSeqTest = true;
-    output.SEQ = configs.client.sequenceNow;
+    state.sequence = configs.client.sequenceNow;
+  }
+  if(configs.client.writerDone){
+    state.writerDone = true
   }
   if(configs.server.sendPaths){
     output.signSent = true;
+  }
+  if(configs.server.init){
+    output.init = true;
   }
   if(configs.server.signLoad){
     output.signLoad = true;
@@ -60,6 +65,7 @@ const signFiles = [
 ];
 
 export { 
+  configs,
   testInitiate,
   seqStates,
   signsArr,

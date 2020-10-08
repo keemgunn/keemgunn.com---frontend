@@ -15,7 +15,7 @@
 <script>
 import { mapState, mapGetters, mapMutations } from 'vuex';
 import anime from 'animejs';
-const { keys, Timeline } = require('../../assets/javascripts/circleAnime');
+const { keys, Timeline } = require('../api/NameParade/circleAnime');
 
 export default {
   name: "Display",

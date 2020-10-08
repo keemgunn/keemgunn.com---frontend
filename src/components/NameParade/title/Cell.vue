@@ -67,16 +67,16 @@
 
 
 <script>
-import{ mapState, mapGetters, mapMutations } from 'vuex';
+import{ mapGetters, mapMutations } from 'vuex';
 import anime from 'animejs';
-const {
+import {
   Timeline,
   keys,
   positionMap,
   mountPosition,
   typoArr,
   pathReaction,
-} = require('../../../assets/NameParade/javascripts/circleAnime');
+} from '../../../api/NameParade/circleAnime';
 
 export default {
   name: "Cell",
@@ -95,9 +95,6 @@ export default {
     TypoReact_fadein: null,
   }},
   computed: {
-    ...mapState([
-      'aniTiming'
-    ]),
     ...mapGetters([
       'VIEWTYPE',
       'SEQ',
@@ -306,7 +303,7 @@ export default {
       delay: 400
     })
     TypoAnimation.finished.then(() => {
-      this.$store.state.cellTiming.typoRendered += 1;
+      this.$store.state.np.cellTiming.typoRendered += 1;
     });
 
 

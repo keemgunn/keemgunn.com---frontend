@@ -130,7 +130,7 @@ export default new Vuex.Store({
       return state.test.client
     },
     TS(state){ // Test Server
-      return state.stest.server
+      return state.test.server
     },
 
     VERSION(state){

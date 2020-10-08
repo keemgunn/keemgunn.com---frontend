@@ -12,6 +12,8 @@ function keys(value, delay, duration, endDelay, easing){
 }
 
 
+
+
 const typoArr = [
 
   // 0 N
@@ -175,8 +177,6 @@ addNum(mountPosition[2]['wide'], 1, 10);
 addNum(mountPosition[2]['wide'], 18, 21);
 addNum(mountPosition[2]['wide'], 25, 32);
 
-
-
 const pathReaction = {
   small: [
     50, 51, 52, 53, 54
@@ -190,11 +190,6 @@ const pathReaction = {
 
   ]
 }
-
-
-
-
-
 
 function addNum(target, from, to){
   for(var i=from; i<to+1; i++){
@@ -210,8 +205,4 @@ export {
   positionMap,
   mountPosition,
   pathReaction,
-
-
-
-
 }

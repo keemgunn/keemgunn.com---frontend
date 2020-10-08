@@ -34,7 +34,7 @@
 
 <script>
 import{ mapGetters, mapMutations} from 'vuex';
-const { Timeline, keys } = require('../../../assets/NameParade/javascripts/circleAnime');
+const { Timeline, keys } = require('../../../api/NameParade/circleAnime');
 import anime from 'animejs';
 import randomstring from 'randomstring';
 const rand = randomstring.generate(6);
@@ -99,7 +99,7 @@ export default {
         setTimeout(this.triggerInfo, 3800, false);
         this.WritingAnimation = null;
       })
-      this.$store.state.desColor = this.pathData[6];
+      this.$store.state.np.desColor = this.pathData[6];
       this.bbcTrigger(true);
       this.WritingAnimation.play();
       this.triggerInfo(true);
@@ -133,7 +133,7 @@ export default {
     },
 
     progress(){
-      this.$store.state.renderStatus += 1;
+      this.$store.state.np.renderStatus += 1;
     },
 
     triggerInfo(bool){
