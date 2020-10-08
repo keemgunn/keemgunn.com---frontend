@@ -49,7 +49,7 @@ export default {
   },
   methods: {
     ...mapMutations([ 'moveTo', 'setBBC' ]),
-    ...mapActions([ 'INITIATE', 'startSignLoad' ]),
+    ...mapActions([ 'nameparade_INITIATE', 'startSignLoad' ]),
   },
   watch: {
 
@@ -92,7 +92,7 @@ export default {
   created() {
 
     this.setBBC({comp:-1, hue:-1});
-    this.INITIATE();
+    this.nameparade_INITIATE();
     console.log('---history:', this.SIGN_HISTORY);
     if(this.SIGN_HISTORY){
       this.$store.state.np.sequence = 4

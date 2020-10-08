@@ -48,7 +48,11 @@ const state = () => ({
   signSent: false,
   
   signsArr: [],
-  renderStatus: 0 // 1:mounted 2:rendered 3:pending
+  renderStatus: 0, // 1:mounted 2:rendered 3:pending
+
+  master:{
+    selected: [],
+  }
 })
 
 const test = require('./test/test');
@@ -188,6 +192,12 @@ const getters = {
   },
   RENDER_STATE(state){
     return state.renderStatus
+  },
+  
+  //_____________________________________
+  
+  npMASTER(state){
+    return state.master
   }
 }
 
@@ -285,6 +295,18 @@ const mutations = {
     state.sequence = 0;
     state.renderStatus = 0;
   },
+
+  //_____________________________________
+
+  async adjustDI(state, password){
+    const newArr = state.master.selected.sort((a,b)=>{
+      return a - b
+    });
+    const { data } = await axios.post('/nameparade/master/config/sign-index-adjustment', { password, newArr })
+    if(data.status === 200){
+      console.log('adjustment success!');
+    }
+  }
 }
 
 
@@ -293,7 +315,7 @@ const mutations = {
 // ============================= ACTIONS
 const actions = { 
 
-  async INITIATE({commit, state}){
+  async nameparade_INITIATE({commit, state}){
     console.log("==== INITIATING REQUEST ====");
     if(TEST.init){
       commit('PUT_INITDATA', {
@@ -309,6 +331,7 @@ const actions = {
   },
 
   async startSignLoad({state}){
+    console.log('--startSignLoad');
     if(TEST.signLoad){
       state.signsArr = test.signFiles.sort(() => {
         return Math.random() - Math.random();
@@ -317,7 +340,8 @@ const actions = {
     }else{
       let res = await axios.get('/nameparade/api/sign-indexes');
       const signIndexArr = res.data.signIndexArr;
-      res = await axios.post(state.dataUrl + '/get-signs', {signIndexArr});
+      console.log(signIndexArr);
+      res = await axios.post(state.dataConfig.dataUrl + '/get-signs', {signIndexArr});
       const signData = res.data;
       state.signsArr = signData.arg.sort(() => {
         return Math.random() - Math.random();
