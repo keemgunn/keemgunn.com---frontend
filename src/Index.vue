@@ -5,7 +5,7 @@
 </template>
 
 <script>
-import{ mapState, mapGetters, mapMutations} from 'vuex';
+import{ mapGetters, mapMutations } from 'vuex';
 
 export default {
   name: "Index",
@@ -17,7 +17,6 @@ export default {
 
   }},
   computed: {
-    ...mapState([]),
     ...mapGetters(['VIEWTYPE']),
   },
   watch: {
@@ -29,8 +28,8 @@ export default {
   methods: {
     ...mapMutations([]),
     onResize() {
-      this.$store.state.winSize.vw = window.innerWidth
-      this.$store.state.winSize.vh = window.innerHeight
+      this.$store.state.Index.winSize.vw = window.innerWidth
+      this.$store.state.Index.winSize.vh = window.innerHeight
     },
   },
   created() {
@@ -38,6 +37,7 @@ export default {
     this.$nextTick(() => {
       window.addEventListener('resize', this.onResize);
     })
+    console.log(this.VIEWTYPE);
   },
   mounted() {
 
