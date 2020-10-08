@@ -19,8 +19,6 @@ export default {
   computed: {
     ...mapState([]),
     ...mapGetters(['VIEWTYPE']),
-
-
   },
   watch: {
     VIEWTYPE(nu, old){
@@ -42,7 +40,7 @@ export default {
     })
   },
   mounted() {
-    
+
   },
   beforeUpdate() {
     
