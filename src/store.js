@@ -42,6 +42,11 @@ export default new Vuex.Store({
     test: test.configs,
     winSize: { vw: null, vh: null }, 
     viewtype: null,
+
+
+
+
+
     sequence: 0,
     seqName: null,
     connections: 0,
@@ -94,6 +99,33 @@ export default new Vuex.Store({
 
   getters: { 
 
+    VW(state){
+      return state.winSize.vw
+    },
+    VH(state){
+      return state.winSize.vh
+    },
+    VIEWTYPE(state){
+      if(state.winSize.vw < 550){
+        if(state.winSize.vw/state.winSize.vh > 0.58){
+          state.viewtype = 'small';
+          return 'small'
+        }else{
+          state.viewtype = 'narrow';
+          return 'narrow'
+        }
+      }else{
+        if(state.winSize.vw/state.winSize.vh > 1){
+          state.viewtype = 'wide';
+          return 'wide'
+        }else{
+          state.viewtype = 'tablet';
+          return 'tablet'
+        }
+      }
+    },
+
+
     TC(state){ // Test Client
       return state.test.client
     },
@@ -117,25 +149,7 @@ export default new Vuex.Store({
       }
     },
 
-    VIEWTYPE(state){
-      if(state.winSize.vw < 550){
-        if(state.winSize.vw/state.winSize.vh > 0.58){
-          state.viewtype = 'small';
-          return 'small'
-        }else{
-          state.viewtype = 'narrow';
-          return 'narrow'
-        }
-      }else{
-        if(state.winSize.vw/state.winSize.vh > 1){
-          state.viewtype = 'wide';
-          return 'wide'
-        }else{
-          state.viewtype = 'tablet';
-          return 'tablet'
-        }
-      }
-    },
+
 
     byType(state){
       return {

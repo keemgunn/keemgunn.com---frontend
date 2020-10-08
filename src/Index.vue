@@ -18,17 +18,28 @@ export default {
   }},
   computed: {
     ...mapState([]),
-    ...mapGetters([]),
+    ...mapGetters(['VIEWTYPE']),
 
 
+  },
+  watch: {
+    VIEWTYPE(nu, old){
+      console.log('viewtype change:', nu);
+      return old
+    }
   },
   methods: {
     ...mapMutations([]),
-
-    
+    onResize() {
+      this.$store.state.winSize.vw = window.innerWidth
+      this.$store.state.winSize.vh = window.innerHeight
+    },
   },
   created() {
-
+    this.onResize();
+    this.$nextTick(() => {
+      window.addEventListener('resize', this.onResize);
+    })
   },
   mounted() {
     

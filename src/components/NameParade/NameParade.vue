@@ -55,11 +55,6 @@ export default {
     ...mapMutations([ 'moveTo', 'setBBC' ]),
     ...mapActions([ 'INITIATE', 'startSignLoad' ]),
 
-    onResize() {
-      this.winSize.vw = window.innerWidth
-      this.winSize.vh = window.innerHeight
-    },
-
   },
   watch: {
 
@@ -105,7 +100,6 @@ export default {
   },
   created() {
 
-    this.onResize();
     this.setBBC({comp:-1, hue:-1});
     this.INITIATE();
     console.log('---history:', this.SIGN_HISTORY);
@@ -116,10 +110,6 @@ export default {
   },
   mounted() {
 
-    this.onResize();
-    this.$nextTick(() => {
-      window.addEventListener('resize', this.onResize);
-    })
     if( (this.SEQ>3) && (this.VIEWTYPE !== 'wide') ){
       document.querySelector( 'body' ).style['overflow-y'] = 'auto';
       document.querySelector( 'body' ).style['overflow-x'] = 'hidden';
@@ -135,13 +125,12 @@ export default {
 
 
 <style lang="scss">
-  @import "../../assets/styles/animations.scss";
+  @import "../../assets/NameParade/styles/animations.scss";
   @import "../../assets/fonts/CoreGothicD/coregothicd.css";
   body {
     overflow: hidden;
     background-color: black;
   }
-
   .app {
     z-index: 0;
     position: absolute; top: 0; left: 0;
