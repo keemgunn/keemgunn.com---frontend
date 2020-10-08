@@ -29,7 +29,15 @@ const getters = {
         return 'tablet'
       }
     }
-  }
+  },
+  byType(state){
+    return {
+      _small: (state.viewtype === 'small'),
+      _narrow: (state.viewtype === 'narrow'),
+      _tablet: (state.viewtype === 'tablet'),
+      _wide: (state.viewtype === 'wide'),
+    }
+  },
 }
 
 export default { state, getters }
