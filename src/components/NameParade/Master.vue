@@ -61,12 +61,10 @@
 
 
 <script>
-import{ mapState, mapGetters, mapMutations} from 'vuex';
+import{ mapMutations } from 'vuex';
 import MasterList from './master/MasterList'
 import axios from 'axios';
 
-let isTest = false;
-// isTest = true;
 export default {
   name: "Master",
   components: { MasterList },
@@ -78,10 +76,6 @@ export default {
     signDisplay: []
   }},
   computed: {
-    ...mapState([]),
-    ...mapGetters([]),
-
-
   },
   watch: {
   },
@@ -116,15 +110,7 @@ export default {
     }
   },
   created() {
-    if(isTest){
-      this.password = 'gunnkeem126!astro'
-      this.dataURL = "http://nameparadedata-env.eba-wuyqf8u8.ap-northeast-2.elasticbeanstalk.com";
-      this.signDisplay = [0, 1, 2, 3, 4, 5, 6, 7];
-      this.authorized = true;
-      this.loadData();
-    }else{
-      this.init();
-    }
+    this.init();
   },
 }
 </script>
