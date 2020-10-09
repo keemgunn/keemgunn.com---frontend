@@ -29,6 +29,7 @@ import Parade from './parade/Parade';
 
 export default {
   name: 'NameParade',
+  title: 'NAMEPARADE-GUNN',
   components: {
     Background,
     Title,

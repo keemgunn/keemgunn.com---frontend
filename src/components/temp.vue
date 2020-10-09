@@ -15,6 +15,7 @@ import{ mapState, mapGetters, mapMutations} from 'vuex';
 const name ="";
 export default {
   name,
+  title: '',
   components: { },
   props: [
 

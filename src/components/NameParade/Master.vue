@@ -69,6 +69,7 @@ let isTest = false;
 // isTest = true;
 export default {
   name: "Master",
+  title: "nameparade-master",
   components: { MasterList },
   data() { return {
     dataURL: '',
@@ -80,8 +81,6 @@ export default {
   computed: {
     ...mapState([]),
     ...mapGetters([]),
-
-
   },
   watch: {
   },
