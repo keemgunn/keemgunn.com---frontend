@@ -338,14 +338,13 @@ const actions = {
       });
       state.dataConfig.signDataLoaded = true;
     }else{
-      let res = await axios.get('/nameparade/api/sign-indexes');
-      const signIndexArr = res.data.signIndexArr;
-      console.log(signIndexArr);
-      res = await axios.post(state.dataConfig.dataUrl + '/get-signs', {signIndexArr});
-      const signData = res.data;
-      state.signsArr = signData.arg.sort(() => {
+      const { data } = await axios.post(state.dataConfig.dataUrl + '/get-signs', {signIndexArr: state.dataConfig.displayArr});
+      state.signsArr = data.arg.sort(() => {
         return Math.random() - Math.random();
       });
+      if(data.arg.length !== state.dataConfig.displayArr.length){
+        console.log(`--- sign display array (${state.dataConfig.displayArr.length}) and recieved data indexes (${data.arg.length}) doesn't match! ... $action/startSignLoad`);
+      }
       state.dataConfig.signDataLoaded = true;
     }
   }
