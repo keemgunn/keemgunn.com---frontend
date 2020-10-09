@@ -88,7 +88,7 @@ export default {
   methods: {
     ...mapMutations(['adjustDI']),
     async init(){
-      const {data} = await axios.get('/nameparade/master/info')
+      const { data } = await axios.get('/nameparade/master/info');
       this.dataURL = data.url;
       this.signDisplay = data.signDisplay;
       console.log(this.dataURL);
@@ -107,7 +107,7 @@ export default {
     },
     async loadData(){
       const endpoint = this.dataURL + '/master/get-all-raw-data';
-      const { data } = await axios.post(endpoint, { password: this.password })
+      const { data } = await axios.post(endpoint, { password: this.password });
       this.rawSignsArr = data.arg
     },
     submitData(){
@@ -125,14 +125,6 @@ export default {
     }else{
       this.init();
     }
-  },
-  mounted() {
-  },
-  beforeUpdate() {
-    
-  },
-  beforeCreate() {
-    
   },
 }
 </script>
