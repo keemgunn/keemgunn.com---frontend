@@ -1,0 +1,20 @@
+
+// _____________________ JUST APPEAR
+.just-appear-enter {
+  opacity: 0;
+} 
+.just-appear-enter-to {
+  opacity: 1;
+}
+.just-appear-enter-active{
+  transition: all 400ms;
+}
+.just-appear-leave {
+  opacity: 1;
+}
+.just-appear-leave-to {
+  opacity: 0;
+}
+.just-appear-leave-active {
+  transition: all 400ms;
+}
