@@ -67,6 +67,7 @@ import axios from 'axios';
 
 export default {
   name: "Master",
+  title: "nameparade-master",
   components: { MasterList },
   data() { return {
     dataURL: '',
